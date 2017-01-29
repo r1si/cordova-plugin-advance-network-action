@@ -21,7 +21,7 @@ phonegap plugin add cordova-advance-network-action
 ## Usage
 
 ### changeNetwork 
-[ANDROID][ROOT REQUIRED]
+[ANDROID][ROOT REQUIRED]  
 Function to change network activity with the following value:  
 * "2G" 
 * "3G"
@@ -44,6 +44,7 @@ advance_network.changeNetwork("2G",function(res) {
 ```
 
 ### getDeviceNetwokActivity
+[ANDROID]  
 Function that get the current device network activity  
 It return an int number with this value:
 * 0 = DATA_ACTIVITY_NONE - Data connection activity: No traffic.  
