@@ -9,7 +9,7 @@
   "keywords": [
     "cordova",
     "network",
-    "change network",
+    "changeNetwork"
   ],
   "author": "r1si",
   "license": "AGPL",
