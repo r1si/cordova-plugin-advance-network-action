@@ -1,14 +1,15 @@
+#DO NOT WORK! IN DEVELOP PLEASE NOT USE IT
 # Cordova plugin advance network action
 
 A Cordova plugin to do some network action, for now only on android
 Here what you can do:
-* Change network 
+* Change network
 * get network activty
 
 
 ## Installation
 
-Cordova: 
+Cordova:
 ```
 cordova plugin add cordova-advance-network-action
 ```
@@ -20,10 +21,10 @@ phonegap plugin add cordova-advance-network-action
 
 ## Usage
 
-### changeNetwork 
+### changeNetwork
 [ANDROID][ROOT REQUIRED]  
 Function to change network activity with the following value:  
-* "2G" 
+* "2G"
 * "3G"
 * "4G"
 * "2G/3G"

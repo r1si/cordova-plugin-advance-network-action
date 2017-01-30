@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="cordova-plugin-advance-network-action"
+        version="1.0.0">
+
+  <name>Cordova plugin advance network action</name>
+  <author>r1si</author>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/advance_network.js" target="js/advance_network.js"/>
+
+  <js-module src="www/advance_network.js" name="advance_network">
+    <clobbers target="advance_network" />
+  </js-module>
+
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="advance_network">
+        <param name="android-package" value="com.cordova.r1si.advance.network"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/advance_network.java" target-dir="src/com/r1si/advance_network/"/>
+  </platform>
+
+</plugin>
