@@ -41,7 +41,7 @@ public class advance_network extends CordovaPlugin {
 	* @param String state_network - State that you want change ["2G" "3G" "4G" "2G/3G" "2G/3G/4G"]
 	* @return boolean
 	*/
-	function static boolean setDeviceNetwork(Context context, String state_network){
+	public static boolean setDeviceNetwork(Context context, String state_network){
 		  try {
 				Process process = null;
 				process = Runtime.getRuntime().exec("su");
