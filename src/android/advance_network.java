@@ -8,12 +8,17 @@ import org.json.JSONException;
 import android.util.Log;
 import android.content.Context;
 import android.app.Activity;
+import android.os.Message;
 import android.telephony.TelephonyManager;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 public class advance_network extends CordovaPlugin {
 	private static final String TAG = "CordovaShellExecute";
+
 	@Override
 	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
+
 		Context context = this.cordova.getActivity().getApplicationContext();
 		/*
 		if (action.equals("getDeviceNetwokActivity")){
@@ -27,7 +32,8 @@ public class advance_network extends CordovaPlugin {
 		}
 		*/
 		if (action.equals("setDeviceNetwork")){
-			callbackContext.success(String.valueOf(setDeviceNetwork(context)));
+			callbackContext.success("debug");
+//			callbackContext.success(String.valueOf(setDeviceNetwork(context,"2G")));
 			return true;
 		}else{
 			callbackContext.error("errore");
@@ -36,35 +42,61 @@ public class advance_network extends CordovaPlugin {
 	}
 
 	/**
-	* Function that change the preffered network
-	* @param Context context - The context of application
-	* @param String state_network - State that you want change ["2G" "3G" "4G" "2G/3G" "2G/3G/4G"]
-	* @return boolean
-	*/
-	public static boolean setDeviceNetwork(Context context, String state_network){
-		  try {
-				Process process = null;
-				process = Runtime.getRuntime().exec("su");
-				TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+	 * Function that change the preffered network
+	 * @param Context context - The context of application
+	 * @param String state_network - State that you want change ["2G" "3G" "4G" "2G/3G" "2G/3G/4G"]
+	 * @return boolean
+	 */
+	public static String setDeviceNetwork(Context context, String state_network){
+		try {
+			Process process = null;
+			process = Runtime.getRuntime().exec("su");
 
-				Method m1 = tm.getClass().getDeclaredMethod("getITelephony");
-				m1.setAccessible(true);
-				Object iTelephony = m1.invoke(tm);
+			TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+			try{
+				Class<?> forName = Class.forName("com.android.internal.telephony.PhoneFactory");
+				try {
+					Method getDefaultPhone = forName.getMethod("getDefaultPhone", new Class[]{});
+					try {
+						Object mPhone = getDefaultPhone.invoke(null, new Object[]{});
+						Method setPreferredNetworkType = mPhone.getClass().getMethod("setPreferredNetworkType", new Class[]{int.class, Message.class});
+						Method getPreferredNetworkType = mPhone.getClass().getMethod("getPreferredNetworkType", new Class[]{Message.class});
 
-				Method m4 = iTelephony.getClass().getDeclaredMethod("setPreferredNetworkType");
-
-				// m2.invoke(iTelephony);
-				// m3.invoke(iTelephony);
-				m4.invoke(iTelephony,2);
-				process.waitFor();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+						setPreferredNetworkType.invoke(mPhone, new Object[]{1, "1"});
+					}catch (IllegalAccessException e){
+						return "Errore IllegalAccessException on run command change network";
+					}catch (InvocationTargetException e){
+						return "Errore InvocationTargetException on run command change network";
+					}
+				}catch (NoSuchMethodException e){
+					return "Errore NoSuchMethodException on find method";
+				}
+			}catch (ClassNotFoundException e){
+				return "Errore ClassNotFoundException on find class";
 			}
 
-		return true;
+
+
+//				Method m1 = tm.getClass().getDeclaredMethod("getITelephony");
+//				m1.setAccessible(true);
+//				Object iTelephony = m1.invoke(tm);
+
+//			Method m4 = iTelephony.getClass().getDeclaredMethod("setPreferredNetworkType",);
+
+			// m2.invoke(iTelephony);
+			// m3.invoke(iTelephony);
+//			m4.invoke(iTelephony,2);
+			process.waitFor();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Errore IOException on sudo command";
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			return "Errore InterruptException on sudo command";
+		}
+
+		return "true";
 	}
 
 	/**
@@ -103,4 +135,4 @@ public class advance_network extends CordovaPlugin {
 			}
 		}
 	}
-}}
+}
