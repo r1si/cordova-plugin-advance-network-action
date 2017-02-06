@@ -1,5 +1,6 @@
 package com.cordova.r1si.advance.network;
 
+
 import org.apache.cordova.*;
 import java.io.*;
 import java.net.*;
@@ -20,6 +21,9 @@ public class advance_network extends CordovaPlugin {
 	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
 		Context context = this.cordova.getActivity().getApplicationContext();
+		callbackContext.success("debug");
+		callbackContext.error("errore");
+
 		/*
 		if (action.equals("getDeviceNetwokActivity")){
 			callbackContext.success(String.valueOf(getDeviceNetwokActivity(context)));
